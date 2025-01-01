@@ -15,18 +15,18 @@ macro_rules! power {
     };
 }
 
-fn power_tower(a: f64, b: u64) -> f64 {
+pub fn power_tower(a: f64, b: u64) -> f64 {
     let mut result = a;
     for _ in 1..b {
-        result = a.powf(result);
+        result = power(a, result);
     }
     result
 }
 
-fn power_tower_tower(a: u64, b: u64) -> u64 {
-    let mut result = a;
-    for _ in 1..b {
-        result = power_tower(a as f64, result) as u64;
-    }
-    result
-}
+// pub fn power_tower_tower(a: u64, b: u64) -> u64 {
+//    let mut result = a;
+//    for _ in 1..b {
+//        result = power_tower(a as f64, result) as u64;
+//    }
+//    result
+// }

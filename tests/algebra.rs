@@ -1,0 +1,90 @@
+use tn_math::{difference, division, power, product, sum};
+use tn_math::algebra::addition::sum;
+use tn_math::algebra::subtraction::subtract;
+use tn_math::algebra::multiplication::multiplication;
+use tn_math::algebra::division::divide;
+use tn_math::algebra::power::{power, power_tower};
+
+#[test]
+fn test_sum() {
+    assert_eq!(sum(2.0, 3.0), 5.0);
+    assert_eq!(sum(-1.0, 1.0), 0.0);
+    assert_eq!(sum(10.0, -5.0), 5.0);
+}
+
+#[test]
+fn test_subtraction() {
+    assert_eq!(subtract(5.0, 2.0), 3.0);
+    assert_eq!(subtract(-1.0, 1.0), -2.0);
+    assert_eq!(subtract(10.0, 5.0), 5.0);
+}
+
+#[test]
+fn test_multiplication() {
+    assert_eq!(multiplication(10.0, 5.0), 50.0);
+    assert_eq!(multiplication(-1.0, 10.0), -10.0);
+    assert_eq!(multiplication(2.0, 3.0), 6.0);
+}
+
+#[test]
+fn test_division() {
+    assert_eq!(divide(10.0, 5.0), 2.0);
+    assert_eq!(divide(-1.0, 1.0), -1.0);
+    assert_eq!(divide(20.0, 4.0), 5.0);
+}
+
+#[test]
+fn test_sum_macro() {
+    assert_eq!(sum!(1.0, 2.0, -5.0, -7.0, 12.0), 3.0);
+    assert_eq!(sum!(10.0, -3.0, 2.0, -1.0), 8.0);
+    assert_eq!(sum!(5.0, 5.0, 5.0), 15.0);
+}
+
+#[test]
+fn test_subtraction_macro() {
+    assert_eq!(difference!(10.0, 5.0, -5.0, 7.0, -1.0), 4.0);
+    assert_eq!(difference!(20.0, 10.0, 5.0, -3.0), 8.0);
+    assert_eq!(difference!(15.0, 10.0, 5.0), 0.0);
+}
+
+#[test]
+fn test_multiplication_macro() {
+    assert_eq!(product!(10.0, 50.0, 4.0), 2000.0);
+    assert_eq!(product!(2.0, 3.0, 4.0), 24.0);
+    assert_eq!(product!(5.0, 5.0, 5.0), 125.0);
+}
+
+#[test]
+fn test_division_macro() {
+    assert_eq!(division!(1000.0, 50.0, 20.0), 1.0);
+    assert_eq!(division!(120.0, 4.0, 3.0), 10.0);
+    assert_eq!(division!(240.0, 4.0, 6.0), 10.0);
+}
+
+#[test]
+fn test_power() {
+    assert_eq!(power(2.0, 3.0), 8.0);
+    assert_eq!(power(2.0, -3.0), 0.125);
+    assert_eq!(power(-2.0, 3.0), -8.0);
+}
+
+#[test]
+fn test_power_macro() {
+    assert_eq!(power!(2.0, 3.0), 8.0);
+    assert_eq!(power!(2.0, 3.0, 2.0), 64.0);
+    assert_eq!(power!(2.0, 3.0, 2.0, 2.0), 4096.0);
+}
+
+#[test]
+fn test_power_tower() {
+    assert_eq!(power_tower(2.0, 3), 16.0);
+    assert_eq!(power_tower(2.0, 4), 65536.0);
+    assert_eq!(power_tower(3.0, 2), 27.0);
+}
+
+//#[test]
+//fn test_power_tower_tower() {
+//    assert_eq!(power_tower_tower(2, 3), 65536);
+//    assert_eq!(power_tower_tower(3, 2), 7625597484987);
+//    assert_eq!(power_tower_tower(2, 2), 16);
+// }
