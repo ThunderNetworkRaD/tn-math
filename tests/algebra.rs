@@ -4,6 +4,7 @@ use tn_math::algebra::subtraction::subtract;
 use tn_math::algebra::multiplication::multiplication;
 use tn_math::algebra::division::divide;
 use tn_math::algebra::power::{power, power_tower};
+use tn_math::algebra::rest::rest;
 
 #[test]
 fn test_sum() {
@@ -34,6 +35,34 @@ fn test_division() {
 }
 
 #[test]
+fn test_rest() {
+    assert_eq!(rest(10.0, 5.0), 0.0);
+    assert_eq!(rest(5.0, 3.0), 2.0);
+    assert_eq!(rest(20.0, 4.0), 0.0);
+}
+
+#[test]
+fn test_power() {
+    assert_eq!(power(2.0, 3.0), 8.0);
+    assert_eq!(power(2.0, -3.0), 0.125);
+    assert_eq!(power(-2.0, 3.0), -8.0);
+}
+
+#[test]
+fn test_power_tower() {
+    assert_eq!(power_tower(2.0, 3), 16.0);
+    assert_eq!(power_tower(2.0, 4), 65536.0);
+    assert_eq!(power_tower(3.0, 2), 27.0);
+}
+
+//#[test]
+//fn test_power_tower_tower() {
+//    assert_eq!(power_tower_tower(2, 3), 65536);
+//    assert_eq!(power_tower_tower(3, 2), 7625597484987);
+//    assert_eq!(power_tower_tower(2, 2), 16);
+// }
+
+#[test]
 fn test_sum_macro() {
     assert_eq!(sum!(1.0, 2.0, -5.0, -7.0, 12.0), 3.0);
     assert_eq!(sum!(10.0, -3.0, 2.0, -1.0), 8.0);
@@ -62,29 +91,8 @@ fn test_division_macro() {
 }
 
 #[test]
-fn test_power() {
-    assert_eq!(power(2.0, 3.0), 8.0);
-    assert_eq!(power(2.0, -3.0), 0.125);
-    assert_eq!(power(-2.0, 3.0), -8.0);
-}
-
-#[test]
 fn test_power_macro() {
     assert_eq!(power!(2.0, 3.0), 8.0);
     assert_eq!(power!(2.0, 3.0, 2.0), 64.0);
     assert_eq!(power!(2.0, 3.0, 2.0, 2.0), 4096.0);
 }
-
-#[test]
-fn test_power_tower() {
-    assert_eq!(power_tower(2.0, 3), 16.0);
-    assert_eq!(power_tower(2.0, 4), 65536.0);
-    assert_eq!(power_tower(3.0, 2), 27.0);
-}
-
-//#[test]
-//fn test_power_tower_tower() {
-//    assert_eq!(power_tower_tower(2, 3), 65536);
-//    assert_eq!(power_tower_tower(3, 2), 7625597484987);
-//    assert_eq!(power_tower_tower(2, 2), 16);
-// }
