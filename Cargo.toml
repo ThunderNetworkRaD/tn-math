@@ -6,6 +6,6 @@ edition = "2021"
 [dependencies]
 
 [features]
-default = []
+default = ["algebra"]
 algebra = []
-big_numbers = []
+big_numbers = ["algebra"]

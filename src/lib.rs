@@ -2,4 +2,4 @@
 pub mod algebra;
 
 #[cfg(feature = "big_numbers")]
-mod big_numbers;
+pub mod big_numbers;
