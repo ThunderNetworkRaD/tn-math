@@ -9,14 +9,17 @@
 /// # Returns
 ///
 /// A tuple containing the resulting vector of digits and a carry value.
-pub fn sum(vector1: Vec<u8>, vector2: Vec<u8>, rtl: bool, mut carry: u8) -> (Vec<u8>, u8) {
-    if vector1.len() != vector2.len() {
+pub fn sum(vector1: Vec<u8>, vector2: Vec<u8>, start_from_end: bool, mut carry: u8) -> (Vec<u8>, u8) {
+    let length = vector1.len();
+    if length != vector2.len() {
         panic!("Vectors must be of the same length");
     }
 
-    let mut result = Vec::new();    
-    for mut i in if rtl { (vector1.len() + 1)..0 } else { 0..vector1.len() } {
-        if rtl { i -= 1; }
+    let mut result = Vec::new();   
+
+    for mut i in 0..vector1.len() {
+        if start_from_end { i = length - 1 - i }
+
         let mut sum = vector1[i] + vector2[i] + carry;
         if sum > 9 {
             carry = 1;
@@ -24,7 +27,12 @@ pub fn sum(vector1: Vec<u8>, vector2: Vec<u8>, rtl: bool, mut carry: u8) -> (Vec
         } else {
             carry = 0;
         }
-        result.insert(0, sum);
+
+        if start_from_end {
+            result.insert(0, sum);
+        } else {
+            result.push(sum);
+        }
     }
 
     (result, carry)

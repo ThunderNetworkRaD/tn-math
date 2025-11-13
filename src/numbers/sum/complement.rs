@@ -4,7 +4,7 @@ Useful for subtraction operations in arbitrary-precision arithmetic.
  */
 pub fn generate_complement(vector: Vec<u8>, base: u8) -> (Vec<u8>, u8) {
     let mut complement = Vec::new();
-    let mut carry = 1; // Start with 1 for the addition of 1 in the complement
+    let mut carry = 1;
 
     for &digit in vector.iter().rev() {
         let mut comp_digit = (base - 1) - digit + carry;
@@ -44,15 +44,8 @@ pub fn generate_complement(vector: Vec<u8>, base: u8) -> (Vec<u8>, u8) {
 /// # Returns
 ///
 /// A tuple containing the resulting vector of digits and a carry value.
-pub fn sum_complements(vector1: Vec<u8>, vector2: Vec<u8>, rtl: bool, carry: u8) -> (Vec<u8>, u8) {
+pub fn sum_complements(vector1: Vec<u8>, vector2: Vec<u8>, start_from_end: bool, carry: u8) -> (Vec<u8>, u8) {
     let (complement2, _) = generate_complement(vector2, 10);
 
-    let mut sum = crate::numbers::sum::sum(vector1, complement2, rtl, carry);
-
-    if sum.1 > 0 {
-        sum.0.remove(0);
-        (sum.0, sum.1)
-    } else {
-        (generate_complement(sum.0, 10).0, sum.1)
-    }
+    crate::numbers::sum::sum(vector1, complement2, start_from_end, carry)
 }

@@ -1,4 +1,5 @@
-use crate::numbers::{equalize, sum::{sum, sum_complements}};
+use crate::numbers::{equalize, sum::{sum, complement::sum_complements}};
+use std::fmt::Debug;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub enum Sign {
@@ -13,6 +14,24 @@ pub struct Number {
     pub integer_part: Vec<u8>,
     pub rational_part: Vec<u8>,
     pub sign: Sign,
+}
+
+impl Debug for Number {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let sign_str = match self.sign {
+            Sign::Positive => "",
+            Sign::Negative => "-",
+        };
+
+        let integer_str: String = self.integer_part.iter().rev().map(|d| d.to_string()).collect();
+        let rational_str: String = self.rational_part.iter().map(|d| d.to_string()).collect();
+
+        if self.rational_part.is_empty() {
+            write!(f, "{}{}", sign_str, integer_str)
+        } else {
+            write!(f, "{}{}.{}", sign_str, integer_str, rational_str)
+        }
+    }
 }
 
 impl Number {
@@ -38,33 +57,39 @@ impl Number {
                 let (rat_result, carry) = sum_complements(rat1, rat2, true, 0);
                 let (int_result, carry) = sum_complements(int1, int2, false, carry);
 
-                integer_result = int_result;
-                rational_result = rat_result;
-
-                if carry != 0 {
+                if carry == 0 {
                     sign = Sign::Positive;
+                    rational_result = super::sum::complement::generate_complement(rat_result, 10).0;
+                    integer_result = super::sum::complement::generate_complement(int_result, 10).0;
                 } else {
                     sign = Sign::Negative;
+                    rational_result = rat_result;
+                    integer_result = int_result;
                 }
             }
             (Sign::Negative, Sign::Positive) => {
-                let (rat_result, carry) = sum_complements(rat2, rat1, true, 0);
-                let (int_result, carry) = sum_complements(int2, int1, false, carry);
+                let (rat_result, carry) = sum_complements(rat1, rat2, true, 0);
+                let (int_result, carry) = sum_complements(int1, int2, false, carry);
 
-                integer_result = int_result;
-                rational_result = rat_result;
-
-                if carry != 0 {
+                if carry == 0 {
                     sign = Sign::Positive;
+                    rational_result = super::sum::complement::generate_complement(rat_result, 10).0;
+                    integer_result = super::sum::complement::generate_complement(int_result, 10).0;
                 } else {
                     sign = Sign::Negative;
+                    rational_result = rat_result;
+                    integer_result = int_result;
                 }
             }
             _ => {
                 sign = self.sign;
                 let (rat_result, carry) = sum(rat1, rat2, true, 0);
                 rational_result = rat_result;
-                integer_result = sum(int1, int2, false, carry).0;
+                let (mut int_result, carry) = sum(int1, int2, false, carry);
+                if carry != 0 {
+                    int_result.insert(0, carry);
+                }
+                integer_result = int_result;
             }
         }
 
