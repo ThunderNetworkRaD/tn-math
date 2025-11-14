@@ -47,5 +47,5 @@ pub fn generate_complement(vector: Vec<u8>, base: u8) -> (Vec<u8>, u8) {
 pub fn sum_complements(vector1: Vec<u8>, vector2: Vec<u8>, start_from_end: bool, carry: u8) -> (Vec<u8>, u8) {
     let (complement2, _) = generate_complement(vector2, 10);
 
-    crate::numbers::sum::sum(vector1, complement2, start_from_end, carry)
+    crate::numbers::sum::sum(vector1, complement2, start_from_end, carry, false)
 }

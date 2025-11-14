@@ -6,3 +6,5 @@ pub mod fill;
 
 mod equalize;
 pub use equalize::equalize;
+
+pub mod multiplication;
