@@ -36,25 +36,31 @@ impl Debug for Number {
 }
 
 pub fn positive_get_digit(integer_part: &Vec<u8>, rational_part: &Vec<u8>, index: usize) -> u8 {
-    let total_length = integer_part.len() + rational_part.len();
-    let index_from_end = total_length - index - 1;
+    let rational_len = rational_part.len();
 
-    if index_from_end < rational_part.len() {
-        rational_part[index_from_end]
+    if index < rational_len {
+        // Parte razionale è MSB-first → ribaltiamo
+        rational_part[rational_len - 1 - index]
     } else {
-        integer_part[index_from_end - rational_part.len()]
+        // Parte intera è LSB-first → accesso diretto
+        integer_part[index - rational_len]
+    }
+}
+
+pub fn minify(vector: &mut Vec<u8>, begin: bool) {
+    while vector.len() > 1 && vector[if begin { 0 } else { vector.len() - 1 }] == 0 {
+        if begin {
+            vector.remove(0);
+        } else {
+            vector.pop();
+        }
     }
 }
 
 impl Number {
     pub fn minify(&mut self) {
-        while self.integer_part.len() > 1 && self.integer_part[0] == 0 {
-            self.integer_part.remove(0);
-        }
-
-        while self.rational_part.len() > 1 && *self.rational_part.last().unwrap() == 0 {
-            self.rational_part.pop();
-        }
+        minify(&mut self.integer_part, false);
+        minify(&mut self.rational_part, true);
     }
 
     pub fn sum(&self, other: &Number) -> Number {
@@ -110,70 +116,50 @@ impl Number {
     }
 
     pub fn multiply(&self, other: &Number) -> Number {
-        let self_rational_length = self.rational_part.len();
-        let other_rational_length = other.rational_part.len();
+        let mut result = vec![0; self.integer_part.len() + self.rational_part.len() + other.integer_part.len() + other.rational_part.len()];
+        let mut index = 0;
 
-        let self_length = self_rational_length + self.integer_part.len();
-        let other_length = other_rational_length + other.integer_part.len();
+        for i in 0..(other.rational_part.len() + other.integer_part.len()) {
+            let mut temp_result = vec![];
 
-        let mut result = vec![0; self_length + other_length + 1];
-
-        for i in (0..other_length).rev() {
-            let mut carry: u16 = 0;            
-            for j in (0..self_length).rev() {
-                let digit = 
-                    self.positive_get_digit(j) as u16 *
-                    other.positive_get_digit(i) as u16 +
-                    carry;               
-
+            let mut carry = 0;            
+            for j in 0..(self.rational_part.len() + self.integer_part.len()) {
+                let mut digit = 
+                    self.positive_get_digit(j) *
+                    other.positive_get_digit(i) +
+                    carry;
+                
                 carry = digit / 10;
+                digit = digit % 10;
 
-                result[i + j] = (digit % 10) as u8;
+                temp_result.push(digit);
             }
 
-            let mut k = i + self_length;
-            while carry > 0 {
-                let digit = result[k] as u16 + carry;
-                result[k] = (digit % 10) as u8;
-                carry = digit / 10;
-                k += 1;
+            if carry != 0 {
+                temp_result.push(carry);
             }
+
+            for _ in 0..index {
+                temp_result.insert(0, 0);
+            }
+
+            index += 1;
+
+            let (equalized_result, temp_result) = equalize(result, temp_result.clone(), false);
+
+            result = sum(equalized_result, temp_result, false, 0, true).0;
         }
 
-        while result.len() > 1 && *result.last().unwrap() == 0 {
-            result.pop();
-        }
-
-        result.reverse();
-
-        while result.len() > 1 && *result.last().unwrap() == 0 {
-            result.pop();
-        }
-
-        let decimals = self_rational_length + other_rational_length;
-        let result_len = result.len();
-        let split = result_len.saturating_sub(decimals);
-        let integer_part = if split == 0 {
-            vec![0]
-        } else {
-            let mut integer_part = result[..split].to_vec();
-            integer_part.reverse();
-            integer_part
-        };
-
-        let rational_part = if self_rational_length + other_rational_length == 0 {
-            vec![]
-        } else if decimals > result_len {
-            let mut pad = vec![0; decimals - result_len];
-            pad.extend(result);
-            pad
-        } else {
-            result[split..].to_vec()
-        };
+        let (rational_part, integer_part) = result.split_at(self.rational_part.len() + other.rational_part.len());
+        let mut integer_part = integer_part.to_vec();
+        let mut rational_part = rational_part.to_vec();
+        minify(&mut integer_part, false);
+        minify(&mut rational_part, true);
+        rational_part.reverse();
 
         Number {
-            integer_part: integer_part,
-            rational_part: rational_part,
+            integer_part: integer_part.to_vec(),
+            rational_part: rational_part.to_vec(),
             sign: if self.sign == other.sign { Sign::Positive } else { Sign::Negative },
         }
     }

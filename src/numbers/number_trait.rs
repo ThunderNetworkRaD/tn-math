@@ -29,10 +29,12 @@ impl NumberTrait for usize {
     /// `integer_part` field, an empty `rational_part` field, and a
     /// `Sign` of `Sign::Positive`.
     fn to_number(&self) -> Number {
-        Number {
+        let mut number = Number {
             integer_part: self.digits(),
             rational_part: Vec::new(),
             sign: Sign::Positive,
-        }
+        };
+        number.minify();
+        number
     }
 }
