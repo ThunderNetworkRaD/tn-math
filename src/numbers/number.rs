@@ -164,6 +164,65 @@ impl Number {
         }
     }
 
+    pub fn divide(&self, other: &Number, mut precision: usize) -> Number {
+        let mut integer_result = vec![];
+        let mut rational_result = vec![];
+
+        let mut number = self.clone();
+        let mut other = other.clone();
+
+        let other_rational_length = other.rational_part.len();
+        other.shift_rationals_to_integers(other_rational_length);
+        number.shift_rationals_to_integers(other_rational_length);
+
+        while rational_result.len() < precision {
+            let counter = 0;
+            unimplemented!();
+        }
+
+        Number {
+            integer_part: integer_result,
+            rational_part: rational_result,
+            sign: Sign::Positive,
+        }
+    }
+
+    pub fn shift_rational_to_integer(&mut self) {
+        let digit = if self.rational_part.is_empty() {
+            0
+        } else {
+            self.rational_part.remove(0)
+        };
+        if digit == 0 && self.integer_part.is_empty() {
+            return;
+        }
+        self.integer_part.insert(0, digit);
+    }
+
+    pub fn shift_rationals_to_integers(&mut self, count: usize) {
+        for _ in 0..count {
+            self.shift_rational_to_integer();
+        }
+    }
+
+    pub fn shift_integer_to_rational(&mut self) {
+        let digit = if self.integer_part.is_empty() {
+            0
+        } else {
+            self.integer_part.remove(0)
+        };
+        if digit == 0 && self.rational_part.is_empty() {
+            return;
+        }
+        self.rational_part.insert(0, digit);
+    }
+
+    pub fn shift_integers_to_rationals(&mut self, count: usize) {
+        for _ in 0..count {
+            self.shift_integer_to_rational();
+        }
+    }
+
     pub fn positive_get_digit(&self, index: usize) -> u8 {
         positive_get_digit(&self.integer_part, &self.rational_part, index)
     }

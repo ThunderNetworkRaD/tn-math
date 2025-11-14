@@ -181,3 +181,38 @@ fn multiply_big_numbers_structs() {
     assert_eq!(result.rational_part, expected.rational_part);
     assert_eq!(result.sign, expected.sign);
 }
+
+#[test]
+fn test_shifts() {
+    use tn_math::numbers::number::Number;
+    
+    let mut number = Number {
+        integer_part: vec![3, 2, 1],
+        rational_part: vec![4, 5, 6],
+        sign: tn_math::numbers::number::Sign::Positive,
+    };
+
+    number.shift_integer_to_rational();
+    assert_eq!(number.integer_part, vec![2, 1]);
+    assert_eq!(number.rational_part, vec![3, 4, 5, 6]);
+
+    number.shift_rational_to_integer();
+    assert_eq!(number.integer_part, vec![3, 2, 1]);
+    assert_eq!(number.rational_part, vec![4, 5, 6]);
+
+    number.shift_rationals_to_integers(2);
+    assert_eq!(number.integer_part, vec![5,4,3,2,1]);
+    assert_eq!(number.rational_part, vec![6]);
+
+    number.shift_integers_to_rationals(3);
+    assert_eq!(number.integer_part, vec![2,1]);
+    assert_eq!(number.rational_part, vec![3,4,5,6]);
+
+    number.shift_integers_to_rationals(3);
+    assert_eq!(number.integer_part, vec![]);
+    assert_eq!(number.rational_part, vec![0,1,2,3,4,5,6]);
+
+    number.shift_rationals_to_integers(7);
+    assert_eq!(number.integer_part, vec![6,5,4,3,2,1]);
+    assert_eq!(number.rational_part, vec![]);
+}
