@@ -2,6 +2,10 @@
 name = "numforge"
 version = "0.1.0-alpha.1"
 edition = "2021"
+authors = ["ThunderNetworkRaD <thundernetwork.org@gmail.com>", "KillerBossOriginal <killerbossoriginal@outlook.it>"]
+description = "A Rust library for advanced mathematical operations and number theory."
+license = "MIT"
+repository = "https://source.thundernetwork.org/ThunderNetworkRaD/tn-math"
 
 [dependencies]
 
