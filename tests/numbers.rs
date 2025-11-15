@@ -1,8 +1,8 @@
-use tn_math::numbers::{Number, Sign};
+use numforge::numbers::{Number, Sign};
 
 #[test]
 fn sum_number_structs() {
-    use tn_math::numbers::number_trait::NumberTrait;
+    use numforge::numbers::number_trait::NumberTrait;
 
     let num1 = 143_usize.to_number();
     let num2 = 4560_usize.to_number();
@@ -92,7 +92,7 @@ fn sum_number_structs_with_different_signs_negative() {
 
 #[test]
 fn multiply_numbers_structs() {
-    use tn_math::numbers::number_trait::NumberTrait;
+    use numforge::numbers::number_trait::NumberTrait;
 
     let num1 = 143_usize.to_number();
     let num2 = 4560_usize.to_number();

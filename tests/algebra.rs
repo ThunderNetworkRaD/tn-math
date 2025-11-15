@@ -1,4 +1,4 @@
-use tn_math::algebra::{sum, subtract, multiplication, divide, power, power_tower};
+use numforge::algebra::{sum, subtract, multiplication, divide, power, power_tower};
 
 #[cfg(feature = "algebra")]
 #[test]
@@ -35,7 +35,7 @@ fn test_division() {
 #[cfg(feature = "algebra")]
 #[test]
 fn test_summation_macro() {
-    use tn_math::summation;
+    use numforge::summation;
 
     assert_eq!(summation!(1.0, 2.0, -5.0, -7.0, 12.0), 3.0);
     assert_eq!(summation!(10.0, -3.0, 2.0, -1.0), 8.0);
@@ -45,7 +45,7 @@ fn test_summation_macro() {
 #[cfg(feature = "algebra")]
 #[test]
 fn test_subtraction_macro() {
-    use tn_math::difference;
+    use numforge::difference;
 
     assert_eq!(difference!(10.0, 5.0, -5.0, 7.0, -1.0), 4.0);
     assert_eq!(difference!(20.0, 10.0, 5.0, -3.0), 8.0);
@@ -55,7 +55,7 @@ fn test_subtraction_macro() {
 #[cfg(feature = "algebra")]
 #[test]
 fn test_multiplication_macro() {
-    use tn_math::product;
+    use numforge::product;
 
     assert_eq!(product!(10.0, 50.0, 4.0), 2000.0);
     assert_eq!(product!(2.0, 3.0, 4.0), 24.0);
@@ -65,7 +65,7 @@ fn test_multiplication_macro() {
 #[cfg(feature = "algebra")]
 #[test]
 fn test_division_macro() {
-    use tn_math::division;
+    use numforge::division;
 
     assert_eq!(division!(1000.0, 50.0, 20.0), 1.0);
     assert_eq!(division!(120.0, 4.0, 3.0), 10.0);
@@ -83,7 +83,7 @@ fn test_power() {
 #[cfg(feature = "algebra")]
 #[test]
 fn test_power_macro() {
-    use tn_math::power;
+    use numforge::power;
     assert_eq!(power!(2.0, 3.0), 8.0);
     assert_eq!(power!(2.0, 3.0, 2.0), 64.0);
     assert_eq!(power!(2.0, 3.0, 2.0, 2.0), 4096.0);

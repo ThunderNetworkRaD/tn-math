@@ -21,7 +21,7 @@
 ///
 /// Examples:
 /// ```rust
-/// # use tn_math::numbers::fill_with_zeros; // adjust path as appropriate
+/// # use numforge::numbers::fill_with_zeros; // adjust path as appropriate
 /// let mut v = vec![1u8, 2, 3];
 /// fill_with_zeros(&mut v, 5, None);
 /// assert_eq!(v, vec![1, 2, 3, 0, 0]);
