@@ -3,7 +3,7 @@ pub fn sum(x: f64, y: f64) -> f64 {
 }
 
 #[macro_export]
-macro_rules! sum {
+macro_rules! summation {
     ($($x:expr),*) => {
         {
             let mut total: f64 = 0.0;

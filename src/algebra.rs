@@ -4,6 +4,14 @@ pub mod multiplication;
 pub mod division;
 pub mod power;
 
+pub use {
+    addition::*,
+    subtraction::*,
+    multiplication::*,
+    division::*,
+    power::*,
+};
+
 pub trait Algebra {
     fn multiply_u8(self, other: u8) -> u8;
     fn sum_u8(self, other: u8) -> u8;
