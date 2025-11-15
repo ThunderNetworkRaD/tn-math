@@ -1,5 +1,4 @@
-use tn_math::numbers::number::Number;
-use tn_math::numbers::sign::Sign;
+use tn_math::numbers::{Number, Sign};
 
 #[test]
 fn sum_number_structs() {
@@ -101,8 +100,11 @@ fn multiply_numbers_structs() {
     let result = num1.multiply(&num2);
     let expected = ((143 * 4560) as usize).to_number();
 
-    println!("Result: {:?}", result);
-    println!("Expected: {:?}", expected);
+    #[cfg(feature = "std")]
+    {
+        println!("Result: {:?}", result);
+        println!("Expected: {:?}", expected);
+    }
 
     assert_eq!(result.integer_part, expected.integer_part);
     assert_eq!(result.rational_part, expected.rational_part);
@@ -129,8 +131,12 @@ fn multiply_numbers_with_rationals_structs() {
         sign: Sign::Negative,
     };
 
-    println!("Result: {:?}", result);
-    println!("Expected: {:?}", expected);
+    #[cfg(feature = "std")]
+    {
+        println!("Result: {:?}", result);
+        println!("Expected: {:?}", expected);
+    }
+
 
     assert_eq!(result.integer_part, expected.integer_part);
     assert_eq!(result.rational_part, expected.rational_part);
@@ -169,8 +175,12 @@ fn multiply_big_numbers_structs() {
         sign: Sign::Positive,
     };
 
-    println!("Result: {:?}", result);
-    println!("Expected: {:?}", expected);
+    #[cfg(feature = "std")]
+    {
+        println!("Result: {:?}", result);
+        println!("Expected: {:?}", expected);
+    }
+
 
     assert_eq!(result.integer_part, expected.integer_part);
     assert_eq!(result.rational_part, expected.rational_part);
@@ -179,8 +189,6 @@ fn multiply_big_numbers_structs() {
 
 #[test]
 fn test_shifts() {
-    use tn_math::numbers::number::Number;
-    
     let mut number = Number {
         integer_part: vec![3, 2, 1],
         rational_part: vec![4, 5, 6],
