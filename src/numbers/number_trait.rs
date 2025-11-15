@@ -1,4 +1,5 @@
-use crate::numbers::number::{Number, Sign};
+use crate::numbers::number::Number;
+use super::sign::Sign;
 
 pub trait NumberTrait {
     fn digits(&self) -> Vec<u8>;

@@ -1,11 +1,6 @@
 use crate::numbers::{equalize, sum::{complement::sum_complements, sum}};
 use std::{fmt::Debug, vec};
-
-#[derive(PartialEq, Debug, Clone, Copy)]
-pub enum Sign {
-    Positive,
-    Negative
-}
+use super::sign::Sign;
 
 /// Represents a number with integer and rational parts, along with its sign.
 /// Integer part is stored as a vector of digits (u8), where the (index - 1) represents the power of 10.
@@ -48,12 +43,12 @@ pub fn positive_get_digit(integer_part: &Vec<u8>, rational_part: &Vec<u8>, index
             return rational_part[index - integer_len];
         }
     } else {
-    if index < rational_len {
-        // Parte razionale è MSB-first → ribaltiamo
-        rational_part[rational_len - 1 - index]
-    } else {
-        // Parte intera è LSB-first → accesso diretto
-        integer_part[index - rational_len]
+        if index < rational_len {
+            // Parte razionale è MSB-first → ribaltiamo
+            rational_part[rational_len - 1 - index]
+        } else {
+            // Parte intera è LSB-first → accesso diretto
+            integer_part[index - rational_len]
         }
     }
 }
@@ -66,6 +61,21 @@ pub fn minify(vector: &mut Vec<u8>, begin: bool) {
             vector.pop();
         }
     }
+}
+
+pub fn is_greater_than(vector1: &Vec<u8>, vector2: &Vec<u8>, begin: bool) -> bool {
+    if vector1.len() != vector2.len() {
+        return vector1.len() > vector2.len();
+    }
+
+    for i in 0..vector1.len() {
+        let index = if begin { i } else { vector1.len() - 1 - i };
+        if vector1[index] != vector2[index] {
+            return vector1[index] > vector2[index];
+        }
+    }
+
+    false
 }
 
 impl Number {
@@ -178,15 +188,15 @@ impl Number {
     pub fn divide(&self, _other: &Number, mut _precision: usize) -> Number {
         unimplemented!();
         /* 
-        let mut integer_result = vec![];
-        let mut rational_result = vec![];
+            let mut integer_result = vec![];
+            let mut rational_result = vec![];
 
-        let mut number = self.clone();
-        let mut other = other.clone();
+            let mut number = self.clone();
+            let mut other = other.clone();
 
-        let other_rational_length = other.rational_part.len();
-        other.shift_rationals_to_integers(other_rational_length);
-        number.shift_rationals_to_integers(other_rational_length);
+            let other_rational_length = other.rational_part.len();
+            other.shift_rationals_to_integers(other_rational_length);
+            number.shift_rationals_to_integers(other_rational_length);
 
             let mut actual_part = Vec::new();
             let mut counter = 0;
@@ -196,11 +206,11 @@ impl Number {
             }
 
 
-        Number {
-            integer_part: integer_result,
-            rational_part: rational_result,
-            sign: Sign::Positive,
-        }
+            Number {
+                integer_part: integer_result,
+                rational_part: rational_result,
+                sign: Sign::Positive,
+            }
          */
     }
 
