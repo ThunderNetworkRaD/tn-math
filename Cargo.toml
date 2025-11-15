@@ -1,6 +1,6 @@
 [package]
-name = "tn-math"
-version = "0.1.0"
+name = "numforge"
+version = "0.1.0-alpha.1"
 edition = "2021"
 
 [dependencies]
