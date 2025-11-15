@@ -90,11 +90,11 @@ impl Number {
                 let (int_result, carry) = sum_complements(int1, int2, false, carry);
 
                 if carry == 0 {
-                    sign = Sign::Negative;
+                    sign = Sign::Positive;
                     rational_result = super::sum::complement::generate_complement(rat_result, 10).0;
                     integer_result = super::sum::complement::generate_complement(int_result, 10).0;
                 } else {
-                    sign = Sign::Positive;
+                    sign = Sign::Negative;
                     rational_result = rat_result;
                     integer_result = int_result;
                 }
